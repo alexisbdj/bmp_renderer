@@ -2,7 +2,7 @@
 
 int main()
 {
-    bmpr::Image img(200, 200, bmpr::Color(255, 255, 255));
+    bmpr::Image img(210, 210, bmpr::Color(255, 255, 255));
     img.setOrigin(bmpr::Origin::TopLeft);
     for (int x = 5; x < 95; x++) {
         for (int y = 5; y < 95; y++) {

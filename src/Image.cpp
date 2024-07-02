@@ -2,6 +2,7 @@
 #include "Image.hpp"
 
 namespace bmpr {
+    const int BPP = 24;
     BmpHeader::BmpHeader()
     {
         this->magic = 0x4D42;
@@ -17,7 +18,7 @@ namespace bmpr {
         this->width = 0;
         this->height = 0;
         this->planes = 1;
-        this->bpp = 24;
+        this->bpp = BPP;
         this->compression = 0;
         this->imgSize = 0;
         this->hRes = -300;
@@ -57,7 +58,14 @@ namespace bmpr {
 
         file.write(reinterpret_cast<char*>(&bheader), sizeof(BmpHeader));
         file.write(reinterpret_cast<char*>(&cheader), sizeof(CoreHeader));
-        file.write(reinterpret_cast<char*>(this->content.data()), sizeof(Color) * this->width * this->height);
+
+        if (this->getPadding() == 0)
+            file.write(reinterpret_cast<char*>(this->content.data()), sizeof(Color) * this->width * this->height);
+        else {
+            for (int y = 0; y < this->height; y++) {
+                file.write(reinterpret_cast<char*>(this->content.data() + (y * this->width)), getWidthSize());
+            }
+        }
         file.close();
     }
 
@@ -69,5 +77,15 @@ namespace bmpr {
     void Image::setOrigin(Origin origin)
     {
         this->origin = origin;
+    }
+
+    std::size_t Image::getPadding() const
+    {
+        return ((this->width * BPP) % 32) / 8;
+    }
+
+    std::size_t Image::getWidthSize() const
+    {
+        return this->width * sizeof(Color) + getPadding();
     }
 }
