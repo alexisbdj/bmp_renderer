@@ -27,9 +27,9 @@ namespace bmpr {
 
     struct __attribute__((packed)) Color {
         Color(std::uint8_t r = 0, std::uint8_t g = 0, std::uint8_t b = 0);
-        std::uint8_t red;
-        std::uint8_t green;
         std::uint8_t blue;
+        std::uint8_t green;
+        std::uint8_t red;
     };
 
     class Image {

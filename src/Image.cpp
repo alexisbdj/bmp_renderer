@@ -17,7 +17,7 @@ namespace bmpr {
         this->width = 0;
         this->height = 0;
         this->planes = 1;
-        this->bpp = 24; // rgb
+        this->bpp = 24;
     }
 
     Color::Color(std::uint8_t r, std::uint8_t g, std::uint8_t b)
