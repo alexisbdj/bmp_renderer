@@ -3,6 +3,7 @@
 int main()
 {
     bmpr::Image img(200, 200, bmpr::Color(255, 255, 255));
+    img.setOrigin(bmpr::Origin::TopLeft);
     for (int x = 5; x < 95; x++) {
         for (int y = 5; y < 95; y++) {
             img.getPixel(x, y) = bmpr::Color(0, 0, 255);

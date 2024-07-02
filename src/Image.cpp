@@ -38,6 +38,7 @@ namespace bmpr {
         this->width = width;
         this->height = height;
         this->content.resize(width * height, bg);
+        this->origin = Origin::TopLeft;
     }
 
     void Image::write(const std::string& path)
@@ -48,8 +49,11 @@ namespace bmpr {
         bheader.size = bheader.offset + this->height * this->width * sizeof(Color);
         cheader.width = this->width;
         cheader.height = this->height;
-        std::ofstream file(path, std::ofstream::out | std::ofstream::binary);
+        if (this->origin == Origin::TopLeft) {
+            cheader.height *= -1;
+        }
 
+        std::ofstream file(path, std::ofstream::out | std::ofstream::binary);
 
         file.write(reinterpret_cast<char*>(&bheader), sizeof(BmpHeader));
         file.write(reinterpret_cast<char*>(&cheader), sizeof(CoreHeader));
@@ -60,5 +64,10 @@ namespace bmpr {
     Color& Image::getPixel(int x, int y)
     {
         return this->content.at(x + y * this->width);
+    }
+
+    void Image::setOrigin(Origin origin)
+    {
+        this->origin = origin;
     }
 }

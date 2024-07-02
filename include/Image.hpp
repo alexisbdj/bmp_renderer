@@ -19,8 +19,8 @@ namespace bmpr {
     struct __attribute__((packed)) CoreHeader {
         CoreHeader();
         std::uint32_t hsize;
-        std::uint32_t width;
-        std::uint32_t height;
+        std::int32_t width;
+        std::int32_t height;
         std::uint16_t planes;
         std::uint16_t bpp;
         std::uint32_t compression;
@@ -39,16 +39,23 @@ namespace bmpr {
         std::uint8_t red;
     };
 
+    enum Origin {
+        TopLeft,
+        BottomLeft,
+    };
+
     class Image {
         public:
             Image(std::size_t width, std::size_t height, Color bg = Color());
 
             void write(const std::string& path);
             Color& getPixel(int x, int y);
+            void setOrigin(Origin origin);
         private:
             std::size_t width;
             std::size_t height;
             std::vector<Color> content;
+            Origin origin;
     };
 }
 
