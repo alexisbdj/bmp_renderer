@@ -18,6 +18,12 @@ namespace bmpr {
         this->height = 0;
         this->planes = 1;
         this->bpp = 24;
+        this->compression = 0;
+        this->imgSize = 0;
+        this->hRes = -300;
+        this->wRes = 300;
+        this->nColors = 0;
+        this->iColors = 0;
     }
 
     Color::Color(std::uint8_t r, std::uint8_t g, std::uint8_t b)

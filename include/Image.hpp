@@ -19,10 +19,17 @@ namespace bmpr {
     struct __attribute__((packed)) CoreHeader {
         CoreHeader();
         std::uint32_t hsize;
-        std::uint16_t width;
-        std::uint16_t height;
+        std::uint32_t width;
+        std::uint32_t height;
         std::uint16_t planes;
         std::uint16_t bpp;
+        std::uint32_t compression;
+        std::uint32_t imgSize;
+        std::int32_t hRes;
+        std::int32_t wRes;
+        std::uint32_t nColors;
+        std::uint32_t iColors;
+
     };
 
     struct __attribute__((packed)) Color {
