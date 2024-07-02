@@ -5,7 +5,7 @@
 #include <string>
 
 namespace bmpr {
-    struct BmpHeader {
+    struct __attribute__((packed)) BmpHeader {
         BmpHeader();
         std::uint16_t magic;
         std::uint32_t size;
