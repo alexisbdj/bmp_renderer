@@ -1,5 +1,5 @@
-#ifndef BMPRENDERER_IMAGE_HPP_
-#define BMPRENDERER_IMAGE_HPP_
+#ifndef BMPRENDERER_HPP_
+#define BMPRENDERER_HPP_
 
 #include <cstddef>
 #include <string>
