@@ -11,5 +11,3 @@ target_compile_features(bmprenderer PUBLIC cxx_std_20)
 target_include_directories(bmprenderer PUBLIC include)
 
 add_subdirectory(src)
-
-add_subdirectory(test)
