@@ -1,5 +1,5 @@
 #include <fstream>
-#include "Image.hpp"
+#include "BmpRenderer.hpp"
 
 namespace bmpr {
     const int BPP = 24;
