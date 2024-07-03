@@ -8,7 +8,7 @@ add_library(bmprenderer)
 
 target_compile_features(bmprenderer PUBLIC cxx_std_20)
 
-include_directories(bmprenderer include)
+target_include_directories(bmprenderer PUBLIC include)
 
 add_subdirectory(src)
 
