@@ -43,18 +43,20 @@ void write(const std::string& path);
 ### Exemple
 
 ```cpp
-    #include "Image.hpp"
+    #include <BmpRenderer.hpp>
 
     int main()
     {
-        bmpr::Image img(210, 210, bmpr::Color(255, 255, 255));
-        img.setOrigin(bmpr::Origin::TopLeft);
-        for (int x = 5; x < 95; x++) {
+        bmpr::Image img(210, 210, bmpr::Color(255, 255, 255)); // default white background
+        img.setOrigin(bmpr::Origin::TopLeft); // origin (0,0) is topLeft
+
+        for (int x = 5; x < 95; x++) {  // draw a square
             for (int y = 5; y < 95; y++) {
                 img.getPixel(x, y) = bmpr::Color(0, 0, 255);
             }
         }
-        for (int i = 0; i < 200; i++) {
+
+        for (int i = 0; i < 200; i++) { // draw a line
             img.getPixel(i, i) = bmpr::Color(255, 0, 0);
         }
         img.write("test.bmp");
