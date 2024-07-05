@@ -2,7 +2,6 @@
 #include "BmpRenderer.hpp"
 
 namespace bmpr {
-    const int BPP = 24;
     BmpHeader::BmpHeader()
     {
         this->magic = 0x4D42;
@@ -18,7 +17,7 @@ namespace bmpr {
         this->width = 0;
         this->height = 0;
         this->planes = 1;
-        this->bpp = BPP;
+        this->bpp = 0;
         this->compression = 0;
         this->imgSize = 0;
         this->hRes = -300;
@@ -34,22 +33,26 @@ namespace bmpr {
         this->blue = b;
     }
 
-    Image::Image(std::size_t width, std::size_t height, Color bg)
+    template <class T>
+    Image<T>::Image(std::size_t width, std::size_t height, T bg)
     {
         this->width = width;
         this->height = height;
         this->content.resize(width * height, bg);
         this->origin = Origin::TopLeft;
+        this->bpp = sizeof(T) * 8;
     }
 
-    void Image::write(const std::string& path)
+    template <class T>
+    void Image<T>::write(const std::string& path)
     {
         BmpHeader bheader;
         CoreHeader cheader;
         bheader.offset = sizeof(BmpHeader) + sizeof(CoreHeader);
-        bheader.size = bheader.offset + this->height * this->width * sizeof(Color);
+        bheader.size = bheader.offset + this->height * this->width * sizeof(T);
         cheader.width = this->width;
         cheader.height = this->height;
+        cheader.bpp = this->bpp;
         if (this->origin == Origin::TopLeft) {
             cheader.height *= -1;
         }
@@ -60,7 +63,7 @@ namespace bmpr {
         file.write(reinterpret_cast<char*>(&cheader), sizeof(CoreHeader));
 
         if (this->getPadding() == 0)
-            file.write(reinterpret_cast<char*>(this->content.data()), sizeof(Color) * this->width * this->height);
+            file.write(reinterpret_cast<char*>(this->content.data()), sizeof(T) * this->width * this->height);
         else {
             for (int y = 0; y < this->height; y++) {
                 file.write(reinterpret_cast<char*>(this->content.data() + (y * this->width)), getWidthSize());
@@ -69,23 +72,30 @@ namespace bmpr {
         file.close();
     }
 
-    Color& Image::getPixel(int x, int y)
+    template <class T>
+    T& Image<T>::getPixel(int x, int y)
     {
         return this->content.at(x + y * this->width);
     }
 
-    void Image::setOrigin(Origin origin)
+    template <class T>
+    void Image<T>::setOrigin(Origin origin)
     {
         this->origin = origin;
     }
 
-    std::size_t Image::getPadding() const
+    template <class T>
+    std::size_t Image<T>::getPadding() const
     {
-        return ((this->width * BPP) % 32) / 8;
+        return ((this->width * this->bpp) % 32) / 8;
     }
 
-    std::size_t Image::getWidthSize() const
+    template <class T>
+    std::size_t Image<T>::getWidthSize() const
     {
-        return this->width * sizeof(Color) + getPadding();
+        return this->width * sizeof(T) + getPadding();
     }
+
+    template class Image<Color>;
+    template class Image<uint8_t>;
 }

@@ -6,8 +6,6 @@
 #include <vector>
 
 namespace bmpr {
-    extern const int BPP;
-
     // idk if __attribute__((packed)) is portable across compilers, need to check
     struct __attribute__((packed)) BmpHeader {
         BmpHeader();
@@ -46,12 +44,13 @@ namespace bmpr {
         BottomLeft,
     };
 
+    template <class T>
     class Image {
         public:
-            Image(std::size_t width, std::size_t height, Color bg = Color());
+            Image(std::size_t width, std::size_t height, T bg = T());
 
             void write(const std::string& path);
-            Color& getPixel(int x, int y);
+            T& getPixel(int x, int y);
             void setOrigin(Origin origin);
         private:
             std::size_t getPadding() const;
@@ -59,9 +58,13 @@ namespace bmpr {
 
             std::size_t width;
             std::size_t height;
-            std::vector<Color> content;
+            std::vector<T> content;
             Origin origin;
+            std::size_t bpp;
     };
+
+    using Image8 = Image<std::uint8_t>;
+    using Image24 = Image<Color>;
 }
 
 #endif
