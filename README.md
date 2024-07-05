@@ -15,6 +15,31 @@ It is simple and lightweight
 
 you can clone this repository from your project and then refer to this library in your own CMakeFiles as `bmprenderer`.
 
+### Usage
+
+create an `Image` object from `bmpr` namespace :
+```cpp
+Image(std::size_t width, std::size_t height, Color bg = Color());
+```
+
+then you can call it's methods :
+
+get a pixel so you can change it's value.
+```cpp
+Color& getPixel(int x, int y);
+```
+
+choose where is the 0,0 position located  
+possible values are `TopLeft` and `BottomLeft` (default is `TopLeft`)
+```cpp
+void setOrigin(Origin origin);
+```
+
+save your image
+```cpp
+void write(const std::string& path);
+```
+
 ### Exemple
 
 ```cpp
